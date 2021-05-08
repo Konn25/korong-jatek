@@ -1,6 +1,8 @@
 package game.model;
 
-import game.model.Piece;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -11,6 +13,7 @@ public class MoveCheck {
 
     public static boolean movePiece(Piece p, int [][] adat, int gridx, int gridy, int squareSizeX, int squareSizeY, int lastX, int lastY, Rectangle[][] grid, Color color, int colorNumber, boolean movePlayer){
         boolean whichPlayerMove=false;
+
         if((p.getX()>40 && p.getY()>360)||(p.getX()>400 && p.getY()>20)||(adat[gridy][gridx]==0 || adat[gridy][gridx]==1 || adat[gridy][gridx]==2)&&( lastY-gridy>1 || lastY-gridy<-1) || ( lastX-gridx>1 || lastX-gridx<-1) ||(lastX-gridx>0 && lastY-gridy>0 || lastX-gridx<0 && lastY-gridy>0 || lastX-gridx<0 && lastY-gridy<0 || lastX-gridx>0 && lastY-gridy<0)){
             p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
             p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
@@ -25,14 +28,14 @@ public class MoveCheck {
             Logger.info("Nem jó van ott egy korong");
             whichPlayerMove=movePlayer;
         }
-        else if(movePlayer==false && colorNumber==2){
+        else if(!movePlayer && colorNumber==2){//false
             p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
             p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
             p.draw();
             Logger.info("Kék játékos jön ");
             whichPlayerMove=true;
         }
-        else if(movePlayer==true && colorNumber==1){
+        else if(movePlayer && colorNumber==1){//true
             p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
             p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
             p.draw();
@@ -44,9 +47,8 @@ public class MoveCheck {
             adat[gridy][gridx]=colorNumber;
             if(colorNumber==1){
                 whichPlayerMove=true;
-            }else if(colorNumber==2){
-                whichPlayerMove=false;
             }
+
             adat[lastY][lastX]=0;
             grid[gridx][gridy].setFill(color);
             p.setX((float)(squareSizeX/2 +squareSizeX*gridx));
@@ -61,7 +63,7 @@ public class MoveCheck {
     public static int checkData(int [][] adat,int colorNumber){
 
         int color =0;
-        String colorName="";
+        String colorName;
 
         if(colorNumber == 2){
             colorName="Piros";
@@ -178,17 +180,107 @@ public class MoveCheck {
         adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
     }
 
-    public static void Draw(Rectangle[][] grid,int  size,int squareSizeX,int squareSizeY, Pane pane){
-        for (int i = 0; i < size; i+=squareSizeX) {
-            for (int j = 0; j < size; j+=squareSizeY) {
-                Rectangle r = new Rectangle(i,j,squareSizeX,squareSizeY);
-                grid[i/squareSizeX][j/squareSizeY] = r;
-                r.setFill(Color.WHITE);
-                r.setStroke(Color.BLACK);
-                pane.getChildren().add(r);
-            }
-        }
-        Logger.info("Tábla felrajzolása kész");
-    }
+
+   public static void checkPossibleMove(int lastX,int lastY,int [][] adat, Rectangle[][] grid){
+       if(lastY==0){
+           if(adat[lastY+1][lastX]==0) {
+               grid[lastX][lastY + 1].setFill(Color.GREEN);
+           }
+           if(lastX<3 && lastX!=0){
+               if(adat[lastY][lastX-1]==0){
+                   grid[lastX-1][lastY].setFill(Color.GREEN);
+               }
+               if(adat[lastY][lastX+1]==0){
+                   grid[lastX+1][lastY].setFill(Color.GREEN);
+               }
+           }else if(lastX==0){
+               if(adat[lastY][lastX+1]==0){
+                   grid[lastX+1][lastY].setFill(Color.GREEN);
+               }
+           }
+           if(lastX==3){
+               if(adat[lastY][lastX-1]==0)
+                   grid[lastX-1][lastY].setFill(Color.GREEN);
+           }
+
+       }
+       else if(lastX==0){
+           if (adat[lastY - 1][lastX] == 0) {
+               grid[lastX][lastY - 1].setFill(Color.GREEN);
+               if (adat[lastY][lastX + 1] == 0) {
+                   grid[lastX + 1][lastY].setFill(Color.GREEN);
+               }
+           }
+           if(lastY<3){
+               if (adat[lastY+1][lastX] == 0) {
+                   grid[lastX][lastY +1].setFill(Color.GREEN);
+                   if (adat[lastY][lastX + 1] == 0) {
+                       grid[lastX + 1][lastY].setFill(Color.GREEN);
+                   }
+               }
+           }
+       }
+       else if(lastY==4){
+           if (adat[lastY][lastX - 1] == 0 && adat[lastY - 1][lastX] == 0) {
+               grid[lastX][lastY - 1].setFill(Color.GREEN);
+               grid[lastX - 1][lastY].setFill(Color.GREEN);
+               if (lastX < 3 && adat[lastY][lastX + 1] == 0) {
+                   grid[lastX + 1][lastY].setFill(Color.GREEN);
+               }
+           }
+           else if(adat[lastY - 1][lastX] == 0) {
+               grid[lastX][lastY - 1].setFill(Color.GREEN);
+           }
+           if(adat[lastY][lastX-1] == 0){
+               grid[lastX-1][lastY].setFill(Color.GREEN);
+           }
+       }
+       else if(adat[lastY-1][lastX]==0 ){
+           grid[lastX][lastY-1].setFill(Color.GREEN);
+           if(adat[lastY][lastX-1]==0 ) {
+               grid[lastX - 1][lastY].setFill(Color.GREEN);
+           }
+           if(lastY<4){
+               if(adat[lastY+1][lastX]==0){
+                   grid[lastX][lastY+1].setFill(Color.GREEN);
+               }
+           }
+       }
+       if(lastX<3 && lastX>0) {
+           if (adat[lastY][lastX + 1] == 0) {
+               grid[lastX + 1][lastY].setFill(Color.GREEN);
+               if(lastY<3) {
+                   if (adat[lastY + 1][lastX] == 0) {
+                       grid[lastX][lastY + 1].setFill(Color.GREEN);
+                   }
+                   if(lastY>1) {
+                       if (adat[lastY - 1][lastX] == 0) {
+                           grid[lastX][lastY - 1].setFill(Color.GREEN);
+                       }
+                   }
+               }
+               if(adat[lastY][lastX-1] == 0){
+                   grid[lastX-1][lastY].setFill(Color.GREEN);
+               }
+           }
+       }
+       if(lastX==3 && lastY<=3){
+           if(adat[lastY+1][lastX] == 0){
+               grid[lastX][lastY+1].setFill(Color.GREEN);
+           }
+           if(adat[lastY][lastX-1] == 0){
+               grid[lastX-1][lastY].setFill(Color.GREEN);
+           }
+       }
+       if(lastY<4){
+           if(adat[lastY+1][lastX] == 0){
+               grid[lastX][lastY+1].setFill(Color.GREEN);
+           }
+           if(lastX>0 && adat[lastY][lastX-1] == 0){
+               grid[lastX-1][lastY].setFill(Color.GREEN);
+           }
+       }
+
+   }
 
 }
