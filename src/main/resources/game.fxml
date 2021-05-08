@@ -7,18 +7,27 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.DrawBoard">
-    <children>
-        <Label fx:id="redNameLabel" layoutX="451.0" layoutY="37.0" text="Red name">
+
+        <Label fx:id="redNameLabel" layoutX="444.0" layoutY="135.0" text="Red name">
             <font>
                 <Font size="20.0" />
             </font>
         </Label>
-        <Label fx:id="blueNameLabel" layoutX="451.0" layoutY="107.0" prefHeight="27.0" prefWidth="134.0" text="Blue name">
+        <Label fx:id="blueNameLabel" layoutX="444.0" layoutY="172.0" prefHeight="27.0" prefWidth="134.0" text="Blue name">
             <font>
                 <Font size="20.0" />
             </font>
         </Label>
-        <Pane fx:id="pane" layoutX="14.0" layoutY="14.0" prefHeight="474.0" prefWidth="412.0" />
-        <Button fx:id="endGame" layoutX="470.0" layoutY="271.0" mnemonicParsing="false" onAction="#playerWin" text="Kilépés" />
-    </children>
+        <Pane fx:id="pane" layoutX="14.0" layoutY="14.0" prefHeight="69.0" prefWidth="110.0" />
+        <Button fx:id="endGame" layoutX="122.0" layoutY="211.0" mnemonicParsing="false" onAction="#playerWin" prefHeight="39.0" prefWidth="102.0" text="Kilépés" />
+      <Label fx:id="moveText" alignment="CENTER" layoutX="23.0" layoutY="459.0" prefHeight="27.0" prefWidth="428.0" text="Piros játékos jön">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label fx:id="endText" alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="135.0" prefHeight="51.0" prefWidth="321.0" text="Játék vége" textOverrun="WORD_ELLIPSIS">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+
 </AnchorPane>
