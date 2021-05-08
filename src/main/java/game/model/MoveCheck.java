@@ -11,7 +11,7 @@ import org.tinylog.Logger;
 
 public class MoveCheck {
 
-    public static boolean movePiece(Piece p, int [][] adat, int gridx, int gridy, int squareSizeX, int squareSizeY, int lastX, int lastY, Rectangle[][] grid, Color color, int colorNumber, boolean movePlayer){
+    public static boolean movePiece(Piece p, int [][] adat, int gridx, int gridy, int squareSizeX, int squareSizeY, int lastX, int lastY,  int colorNumber, boolean movePlayer){
         boolean whichPlayerMove=false;
 
         if((p.getX()>40 && p.getY()>360)||(p.getX()>400 && p.getY()>20)||(adat[gridy][gridx]==0 || adat[gridy][gridx]==1 || adat[gridy][gridx]==2)&&( lastY-gridy>1 || lastY-gridy<-1) || ( lastX-gridx>1 || lastX-gridx<-1) ||(lastX-gridx>0 && lastY-gridy>0 || lastX-gridx<0 && lastY-gridy>0 || lastX-gridx<0 && lastY-gridy<0 || lastX-gridx>0 && lastY-gridy<0)){
@@ -50,7 +50,6 @@ public class MoveCheck {
             }
 
             adat[lastY][lastX]=0;
-            grid[gridx][gridy].setFill(color);
             p.setX((float)(squareSizeX/2 +squareSizeX*gridx));
             p.setY((float)(squareSizeY/2 +squareSizeY*gridy));
             p.draw();
@@ -264,7 +263,7 @@ public class MoveCheck {
                }
            }
        }
-       if(lastX==3 && lastY<=3){
+       if(lastX == 3 && lastY<=3){
            if(adat[lastY+1][lastX] == 0){
                grid[lastX][lastY+1].setFill(Color.GREEN);
            }
