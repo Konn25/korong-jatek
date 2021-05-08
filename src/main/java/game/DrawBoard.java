@@ -83,7 +83,6 @@ public class DrawBoard {
             Circle c=new Circle();
             Piece p;
 
-
             double radius = squareSizeX/4.0;
 
             if(counter<=4){
@@ -99,8 +98,8 @@ public class DrawBoard {
                 pieces.add(p);
 
 
-                c.setOnMousePressed(event -> pressed(p,adat));
-                c.setOnMouseDragged(event -> dragged(event,p));
+                c.setOnMousePressed(event -> pressed(p,adat,c,whichPlayerMove));
+                c.setOnMouseDragged(event -> dragged(event,p,c,whichPlayerMove));
                 c.setOnMouseReleased(event -> released(p,adat,c));
 
                 System.out.println(pieces.get(i).getX()+"  "+ pieces.get(i).getY());
@@ -121,9 +120,8 @@ public class DrawBoard {
                 p= new Piece(50+plus2,40+320,radius,c);
                 pieces.add(p);
 
-
-                c.setOnMousePressed(event -> pressed(p,adat));
-                c.setOnMouseDragged(event -> dragged(event,p));
+                c.setOnMousePressed(event -> pressed(p,adat,c,whichPlayerMove));
+                c.setOnMouseDragged(event -> dragged(event,p,c,whichPlayerMove));
                 c.setOnMouseReleased(event -> released(p,adat,c));
 
                 Logger.info(pieces.get(i).getX()+"  "+ pieces.get(i).getY());
@@ -135,8 +133,6 @@ public class DrawBoard {
 
             counter++;
         }
-
-
 
         MoveCheck.uploadList(adat);
 
@@ -174,51 +170,70 @@ public class DrawBoard {
             endText.setText("Piros játékos nyert");
             pane.setVisible(false);
             moveText.setVisible(false);
-
         }
     }
 
 
-    public void pressed(Piece p,int [][] adat) {
+    public void pressed(Piece p,int [][] adat, Circle c, boolean whichPlayerMove) {
         lastX=(int)p.getX() / squareSizeX;
         lastY=(int)p.getY() / squareSizeY;
         System.out.println(lastX+" "+lastY);
 
-        MoveCheck.checkPossibleMove(lastX,lastY,adat,grid);
+        if(c.getFill() == Color.RED && whichPlayerMove==false) {
+            MoveCheck.checkPossibleMove(lastX, lastY, adat, grid);
+            Logger.info("A tábla jelenlegi állapota\n"+ adat[0][0]+" "+adat[0][1]+" "+adat[0][2]+" "+adat[0][3]+"\n"+adat[1][0]+" "+adat[1][1]+" "+adat[1][2]+" "+adat[1][3]+"\n"+
+                    adat[2][0]+" "+adat[2][1]+" "+adat[2][2]+" "+adat[2][3]+"\n"+adat[3][0]+" "+adat[3][1]+" "+adat[3][2]+" "+adat[3][3]+"\n"+
+                    adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
+        }else if(c.getFill() == Color.BLUE && whichPlayerMove){
+            MoveCheck.checkPossibleMove(lastX, lastY, adat, grid);
 
-        Logger.info("A tábla jelenlegi állapota\n"+ adat[0][0]+" "+adat[0][1]+" "+adat[0][2]+" "+adat[0][3]+"\n"+adat[1][0]+" "+adat[1][1]+" "+adat[1][2]+" "+adat[1][3]+"\n"+
-                adat[2][0]+" "+adat[2][1]+" "+adat[2][2]+" "+adat[2][3]+"\n"+adat[3][0]+" "+adat[3][1]+" "+adat[3][2]+" "+adat[3][3]+"\n"+
-                adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
+            Logger.info("A tábla jelenlegi állapota\n"+ adat[0][0]+" "+adat[0][1]+" "+adat[0][2]+" "+adat[0][3]+"\n"+adat[1][0]+" "+adat[1][1]+" "+adat[1][2]+" "+adat[1][3]+"\n"+
+                    adat[2][0]+" "+adat[2][1]+" "+adat[2][2]+" "+adat[2][3]+"\n"+adat[3][0]+" "+adat[3][1]+" "+adat[3][2]+" "+adat[3][3]+"\n"+
+                    adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
+        }else{
+            Logger.info("Nem jó játékos lép");
+        }
+
 
 
         Logger.info("LAST: "+lastX+"  "+lastY);
     }
 
-    public void dragged(MouseEvent event, Piece p){
-        p.setX(p.getX()+event.getX());
-        p.setY(p.getY()+event.getY());
+    public void dragged(MouseEvent event, Piece p, Circle c, boolean whichPlayerMove){
 
-        p.draw();
+        if(c.getFill() == Color.RED && whichPlayerMove==false){
+            p.setX(p.getX()+event.getX());
+            p.setY(p.getY()+event.getY());
+            p.draw();
+        }
+        else if(c.getFill() == Color.BLUE && whichPlayerMove){
+            p.setX(p.getX()+event.getX());
+            p.setY(p.getY()+event.getY());
+            p.draw();
+        }else{
+            Logger.info("Nem jó játékos lép");
+        }
+
+
+
     }
 
     public void released( Piece p,int [][] adat,Circle c){
         int gridx =(int)p.getX() / squareSizeX;
         int gridy =(int)p.getY() / squareSizeY;
 
-        Color colorRed = Color.INDIANRED;
-        Color colorBlue = Color.CADETBLUE;
         int redNumber=2;
         int blueNumber=1;
 
         try{
             if(c.getFill()==Color.RED && whichPlayerMove==false && gameEnd == false){
 
-                whichPlayerMove=MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,grid,colorRed,redNumber,false);
-                MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,grid,colorRed,redNumber,whichPlayerMove);
+                whichPlayerMove=MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,false);
+                MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,whichPlayerMove);
             }else if(c.getFill()==Color.BLUE && whichPlayerMove==true && gameEnd == false){
 
-                whichPlayerMove=MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,grid,colorBlue,blueNumber,true);
-                MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,grid,colorBlue,blueNumber,whichPlayerMove);
+                whichPlayerMove=MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,true);
+                MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,whichPlayerMove);
             }else{
                 p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
                 p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
@@ -228,7 +243,7 @@ public class DrawBoard {
 
             if(whichPlayerMove==false){
                 moveText.setText("Piros játékos jön");
-            }else if(whichPlayerMove==true){
+            }else if(whichPlayerMove){
                 moveText.setText("Kék játékos jön");
             }
 
@@ -243,7 +258,7 @@ public class DrawBoard {
 
         }catch(Exception e){
             Logger.warn("Hiba:"+e);
-        };
+        }
 
         checkValues(adat);
 
