@@ -1,5 +1,6 @@
 package game;
 
+import game.model.Draw;
 import game.model.MoveCheck;
 import game.model.Piece;
 import javafx.event.ActionEvent;
@@ -23,8 +24,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class DrawBoard {
+
     @FXML
     Pane pane;
+
+    @FXML
+    Label moveText,endText;
 
     private Stage stage;
     private Scene scene;
@@ -44,7 +49,7 @@ public class DrawBoard {
     boolean whichPlayerMove = false;
     boolean gameEnd=false;
 
-    String winner2="";
+    private String winner2="";
 
 
     @FXML
@@ -65,9 +70,10 @@ public class DrawBoard {
     @FXML
     public void initialize(){
         endGame.setVisible(false);
+        endText.setVisible(false);
         grid= new Rectangle[4][5];
 
-        MoveCheck.Draw(grid,size,squareSizeX,squareSizeY,pane);
+        Draw.DrawTable(grid, size, squareSizeX, squareSizeY, pane);
         ArrayList<Piece> pieces = new ArrayList<Piece>();
         int plus=0;
         int counter =1;
@@ -131,11 +137,12 @@ public class DrawBoard {
         }
 
 
+
         MoveCheck.uploadList(adat);
 
     }
 
-    public void checkValues(int [][] adat){
+     public void checkValues(int [][] adat){
         int color=0; //1--kék, 2--piros
         int blueColor=1;
         int redColor=2;
@@ -152,6 +159,10 @@ public class DrawBoard {
             System.out.println(winner2);
             gameEnd=true;
             endGame.setVisible(true);
+            endText.setVisible(true);
+            endText.setText("Kék játékos nyert");
+            pane.setVisible(false);
+            moveText.setVisible(false);
         }
         else if(color == 2){
             Logger.info("Játék vége Piros játékos győzött");
@@ -159,6 +170,10 @@ public class DrawBoard {
             System.out.println(winner2);
             gameEnd=true;
             endGame.setVisible(true);
+            endText.setVisible(true);
+            endText.setText("Piros játékos nyert");
+            pane.setVisible(false);
+            moveText.setVisible(false);
 
         }
     }
@@ -169,127 +184,7 @@ public class DrawBoard {
         lastY=(int)p.getY() / squareSizeY;
         System.out.println(lastX+" "+lastY);
 
-
-        if(lastY==0){
-            grid[lastX][lastY+1].setFill(Color.GREEN);
-            if(lastX<3 && lastX!=0){
-                if(adat[lastY][lastX-1]==0){
-                    grid[lastX-1][lastY].setFill(Color.GREEN);
-                }
-                if(adat[lastY][lastX+1]==0){
-                    grid[lastX+1][lastY].setFill(Color.GREEN);
-                }
-            }else if(lastX==0){
-                if(adat[lastY][lastX+1]==0){
-                    grid[lastX+1][lastY].setFill(Color.GREEN);
-                }
-            }
-            if(lastX==3){
-                if(adat[lastY][lastX-1]==0)
-                grid[lastX-1][lastY].setFill(Color.GREEN);
-            }
-
-        }
-        else if(lastX==0){
-                if (adat[lastY - 1][lastX] == 0) {
-                    grid[lastX][lastY - 1].setFill(Color.GREEN);
-                    if (adat[lastY][lastX + 1] == 0) {
-                        grid[lastX + 1][lastY].setFill(Color.GREEN);
-                    }
-                }
-            if(lastY<3){
-                if (adat[lastY+1][lastX] == 0) {
-                    grid[lastX][lastY - 1].setFill(Color.GREEN);
-                    if (adat[lastY][lastX + 1] == 0) {
-                        grid[lastX + 1][lastY].setFill(Color.GREEN);
-                    }
-                }
-            }
-            if(lastY<4) {
-                if (adat[lastY + 1][lastX] == 0) {
-                    grid[lastX][lastY + 1].setFill(Color.GREEN);
-                }
-            }
-        }
-        else if(lastY==4){
-                if (adat[lastY][lastX - 1] == 0 && adat[lastY - 1][lastX] == 0) {
-                    grid[lastX][lastY - 1].setFill(Color.GREEN);
-                    grid[lastX - 1][lastY].setFill(Color.GREEN);
-                    if (lastX < 3 && adat[lastY][lastX + 1] == 0) {
-                        grid[lastX + 1][lastY].setFill(Color.GREEN);
-                    }
-                }
-                else if(adat[lastY - 1][lastX] == 0) {
-                    grid[lastX][lastY - 1].setFill(Color.GREEN);
-                }
-                if(adat[lastY][lastX-1] == 0){
-                    grid[lastX-1][lastY].setFill(Color.GREEN);
-                }
-       }
-       else if(adat[lastY-1][lastX]==0 ){
-            grid[lastX][lastY-1].setFill(Color.GREEN);
-            if(adat[lastY][lastX-1]==0 ) {
-                grid[lastX - 1][lastY].setFill(Color.GREEN);
-            }
-            if(lastY<4){
-                if(adat[lastY+1][lastX]==0){
-                    grid[lastX][lastY+1].setFill(Color.GREEN);
-                }
-            }
-       }
-       else if(adat[lastY-1][lastX]==0 ) {
-            grid[lastX][lastY +1].setFill(Color.GREEN);
-            if (adat[lastY][lastX - 1] == 0) {//Ezt még csekkolni kell hogy kell-e
-                grid[lastX - 1][lastY].setFill(Color.GREEN);
-            }
-            if (lastY < 4) {
-                if (adat[lastY + 1][lastX] == 0) {
-                    grid[lastX][lastY + 1].setFill(Color.GREEN);
-                }
-            }
-        }
-        if(lastX<3 && lastX>0) {
-            if (adat[lastY][lastX + 1] == 0) {
-                grid[lastX + 1][lastY].setFill(Color.GREEN);
-                if(lastY<3) {
-                    if (adat[lastY + 1][lastX] == 0) {
-                        grid[lastX][lastY + 1].setFill(Color.GREEN);
-                    }
-                    if(lastY>1) {
-                        if (adat[lastY - 1][lastX] == 0) {
-                            grid[lastX][lastY - 1].setFill(Color.GREEN);
-                        }
-                    }
-                }
-                if(adat[lastY][lastX-1] == 0){
-                    grid[lastX-1][lastY].setFill(Color.GREEN);
-                }
-            }
-        }
-        if(lastX==3 && lastY<=3){
-            if(adat[lastY+1][lastX] == 0){
-                grid[lastX][lastY+1].setFill(Color.GREEN);
-            }
-            if(adat[lastY][lastX-1] == 0){
-                grid[lastX-1][lastY].setFill(Color.GREEN);
-            }
-        }
-        if(lastY<4){
-            if(adat[lastY+1][lastX] == 0){
-                grid[lastX][lastY+1].setFill(Color.GREEN);
-            }
-            if(lastX>0 && adat[lastY][lastX-1] == 0){
-                grid[lastX-1][lastY].setFill(Color.GREEN);
-            }
-        }
-
-
-
-
-
-
-
-
+        MoveCheck.checkPossibleMove(lastX,lastY,adat,grid);
 
         Logger.info("A tábla jelenlegi állapota\n"+ adat[0][0]+" "+adat[0][1]+" "+adat[0][2]+" "+adat[0][3]+"\n"+adat[1][0]+" "+adat[1][1]+" "+adat[1][2]+" "+adat[1][3]+"\n"+
                 adat[2][0]+" "+adat[2][1]+" "+adat[2][2]+" "+adat[2][3]+"\n"+adat[3][0]+" "+adat[3][1]+" "+adat[3][2]+" "+adat[3][3]+"\n"+
@@ -331,6 +226,11 @@ public class DrawBoard {
                 Logger.info("Vissza rakom mert nem jó a lépés");
             }
 
+            if(whichPlayerMove==false){
+                moveText.setText("Piros játékos jön");
+            }else if(whichPlayerMove==true){
+                moveText.setText("Kék játékos jön");
+            }
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 5; j++) {
@@ -365,5 +265,4 @@ public class DrawBoard {
         stage.setScene(scene);
         stage.show();
     }
-
 }
