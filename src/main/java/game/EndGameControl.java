@@ -1,5 +1,6 @@
 package game;
 
+import game.model.DataModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,14 +8,21 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+
 
 public class EndGameControl {
 
     @FXML
     Label winnerLabel;
+
+   @FXML
+   TextArea scoreTextArea;
 
     private Stage stage;
     private Scene scene;
@@ -30,6 +38,19 @@ public class EndGameControl {
     public void getPlayer(String red,String blue){
         redPlayer=red;
         bluePlayer=blue;
+    }
+
+    public void setScoreBoard(List<DataModel> list){
+
+        String text = scoreTextArea.getText();
+        System.out.println(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            scoreTextArea.setText(text+"\n"+list.get(i).getPlayerone()+" "+list.get(i).getPlayertwo()+" "+list.get(i).getWinner());
+
+            text = scoreTextArea.getText();
+            System.out.println("TEXT : "+text);
+        }
+
     }
 
     public void newGame(ActionEvent event) throws IOException {
