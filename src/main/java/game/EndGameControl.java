@@ -1,6 +1,8 @@
 package game;
 
 import game.model.DataModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,8 +25,17 @@ public class EndGameControl {
     @FXML
     Label winnerLabel;
 
-   @FXML
-   TextArea scoreTextArea;
+    @FXML
+    TableView scoreTable;
+
+    @FXML
+    TableColumn WinnerCol;
+
+    @FXML
+    TableColumn RedPlayerCol;
+
+    @FXML
+    TableColumn BluePlayerCol;
 
     private Stage stage;
     private Scene scene;
@@ -42,14 +55,20 @@ public class EndGameControl {
 
     public void setScoreBoard(List<DataModel> list){
 
-        String text = scoreTextArea.getText();
-        System.out.println(list.size());
-        for (int i = 0; i < list.size(); i++) {
-            scoreTextArea.setText(text+"\n"+list.get(i).getPlayerone()+" "+list.get(i).getPlayertwo()+" "+list.get(i).getWinner());
+        ObservableList<DataModel>dats = FXCollections.observableArrayList();
+        
+        RedPlayerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("playerone"));
+        BluePlayerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("playertwo"));
+        WinnerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("winner"));
 
-            text = scoreTextArea.getText();
-            System.out.println("TEXT : "+text);
+
+
+        for (int i = 0; i < list.size(); i++) {
+            dats.addAll(FXCollections.observableArrayList(new DataModel(list.get(i).getPlayerone(),list.get(i).getPlayertwo(),list.get(i).getWinner())));
+            scoreTable.setItems(dats);
         }
+
+
 
     }
 
