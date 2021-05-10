@@ -52,7 +52,7 @@ public class DrawBoard {
     boolean gameEnd=false;
 
     private String winner2="";
-    //public Jdbi scoreBoard;
+
 
     @FXML
     Label redNameLabel,blueNameLabel;
@@ -60,15 +60,24 @@ public class DrawBoard {
     @FXML
     Button endGame;
 
+    /*
+       * Set red player name
+     */
     public void setRedName(String redName) {
         redNameLabel.setText(redName);
     }
 
+    /*
+     * Set blue player name
+     */
     public void setBlueName(String blueName){
         blueNameLabel.setText(blueName);
     }
 
 
+    /*
+     *  Initialize board , red and blue circle
+     */
     @FXML
     public void initialize(){
         endGame.setVisible(false);
@@ -140,6 +149,9 @@ public class DrawBoard {
 
     }
 
+    /*
+       * Check values which player win the game
+     */
     public void checkValues(int [][] adat){
         int color=0; //1--kék, 2--piros
         int blueColor=1;
@@ -176,10 +188,13 @@ public class DrawBoard {
     }
 
 
+    /*
+       * Show where player can move
+     */
     public void pressed(Piece p,int [][] adat, Circle c, boolean whichPlayerMove) {
         lastX=(int)p.getX() / squareSizeX;
         lastY=(int)p.getY() / squareSizeY;
-        System.out.println(lastX+" "+lastY);
+        Logger.info(lastX+" "+lastY);
 
         if(c.getFill() == Color.RED && !whichPlayerMove) {
             MoveCheck.checkPossibleMove(lastX, lastY, adat, grid);
@@ -201,6 +216,10 @@ public class DrawBoard {
         Logger.info("LAST: "+lastX+"  "+lastY);
     }
 
+    /*
+        * Check which player can dragged
+     */
+
     public void dragged(MouseEvent event, Piece p, Circle c, boolean whichPlayerMove){
 
         if(c.getFill() == Color.RED && !whichPlayerMove){
@@ -219,6 +238,10 @@ public class DrawBoard {
 
 
     }
+
+    /*
+     * Dragged circle set the new right place
+     */
 
     public void released( Piece p,int [][] adat,Circle c){
         int gridx =(int)p.getX() / squareSizeX;
@@ -266,6 +289,10 @@ public class DrawBoard {
 
     }
 
+    /*
+        * Open the endgame.fxml and insert players and winner the database
+     */
+
     public void playerWin(ActionEvent event) throws IOException {
 
 
@@ -274,7 +301,6 @@ public class DrawBoard {
         EndGameControl end = loader2.getController();
 
         end.setWinner(winner2);
-        end.getPlayer(redNameLabel.getText(),blueNameLabel.getText());
 
         try (Handle handle = Main.jd.open()){
             DataBase.uploadResultToDataBase(Main.jd,redNameLabel.getText(),blueNameLabel.getText(),winner2);

@@ -10,6 +10,8 @@ public class Piece {
     private double radius;
     private Circle c;
 
+
+
     public Piece(double x, double y, double radius, Circle c){
         this.x=x;
         this.y=y;
@@ -17,30 +19,39 @@ public class Piece {
         this.c=c;
     }
 
+    /*
+        * Set piece Y
+     */
+
     public void setY(double y){
         this.y=y;
     }
 
+    /*
+     * Set piece X
+     */
     public void setX(double x){
         this.x=x;
     }
 
+    /*
+     * Get piece X
+     */
     public double getX(){
         return x;
     }
+
+    /*
+     * Get piece Y
+     */
 
     public double getY(){
         return y;
     }
 
-    public void setColor(Color color){
-        c.setFill(color);
-    }
-
-    public Color getColor(){
-
-        return (Color) c.getFill();
-    }
+    /*
+     * Draw piece
+     */
 
     public void draw(){
         c.setRadius(radius);

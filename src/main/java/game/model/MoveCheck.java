@@ -11,6 +11,9 @@ import org.tinylog.Logger;
 
 public class MoveCheck {
 
+    /*
+        * Check circle where can put
+     */
     public static boolean movePiece(Piece p, int [][] adat, int gridx, int gridy, int squareSizeX, int squareSizeY, int lastX, int lastY,  int colorNumber, boolean movePlayer){
         boolean whichPlayerMove=false;
 
@@ -58,6 +61,10 @@ public class MoveCheck {
         }
         return whichPlayerMove;
     }
+
+    /*
+        * Check which player win
+     */
 
     public static int checkData(int [][] adat,int colorNumber){
 
@@ -146,8 +153,11 @@ public class MoveCheck {
         return color;
     }
 
+    /*
+        * Upload an int[][] with starting position
+     */
+
     public static void uploadList(int[][] adat){
-       //Mátix feltöltése a megfelelő adatokkal
 
         adat[0][0]=1;
         adat[0][1]=2;
@@ -179,6 +189,9 @@ public class MoveCheck {
         adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
     }
 
+    /*
+        *Check possible moves and fill it with green color
+     */
 
    public static void checkPossibleMove(int lastX,int lastY,int [][] adat, Rectangle[][] grid){
        if(lastY==0){

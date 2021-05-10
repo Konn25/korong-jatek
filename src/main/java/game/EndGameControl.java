@@ -44,14 +44,17 @@ public class EndGameControl {
     private String bluePlayer="";
     private String redPlayer="";
 
+    /*
+       * Set winnerLabel text
+     */
+
     public void setWinner(String win){
         winnerLabel.setText("Győztes: "+win);
     }
 
-    public void getPlayer(String red,String blue){
-        redPlayer=red;
-        bluePlayer=blue;
-    }
+    /*
+        * Set scoreboard Table data in FXML view
+     */
 
     public void setScoreBoard(List<DataModel> list){
 
@@ -72,6 +75,10 @@ public class EndGameControl {
 
     }
 
+    /*
+       * Start a new game
+     */
+
     public void newGame(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/regplayer.fxml"));
@@ -83,6 +90,10 @@ public class EndGameControl {
         stage.setScene(scene);
         stage.show();
     }
+
+    /*
+        * Rematch with current opponent
+     */
 
     public void reMatch(ActionEvent event) throws IOException{
 

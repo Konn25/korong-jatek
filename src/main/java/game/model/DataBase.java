@@ -4,12 +4,16 @@ import com.github.javafaker.Faker;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.PreparedBatch;
-import org.jdbi.v3.core.statement.Slf4JSqlLogger;
 
 import java.util.List;
 
 public class DataBase {
 
+    /*
+        * Creat table and column
+        * return jdbi
+
+     */
     public static Jdbi createTabel(Jdbi jdbi){
         try(Handle handle = jdbi.open()){
             handle.execute("""
@@ -26,6 +30,9 @@ public class DataBase {
     }
 
 
+    /*
+      *Upload the table with random element
+     */
     public static void uploadTabelTestElement(Handle handle){
         Faker faker = new Faker();
         String testuser = faker.name().lastName();
@@ -38,11 +45,19 @@ public class DataBase {
         batch.execute();
     }
 
+    /*
+        * Get data from table
+     */
+
     public static List<DataModel> getScoreBoard(Handle handle){
         List<DataModel> scores = handle.createQuery("SELECT playerone,playertwo,winner FROM scoreboard").mapToBean(DataModel.class).list();
 
         return scores;
     }
+
+    /*
+         *Upload players and winner to the table
+    */
 
     public static void uploadResultToDataBase(Jdbi jdbi,String redplayer,String blueplayer,String winner){
         try(Handle handle = jdbi.open()) {
