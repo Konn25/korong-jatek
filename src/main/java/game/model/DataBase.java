@@ -1,5 +1,6 @@
 package game.model;
 
+import com.github.javafaker.Faker;
 import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.PreparedBatch;
@@ -10,8 +11,6 @@ import java.util.List;
 public class DataBase {
 
     public static Jdbi createTabel(Jdbi jdbi){
-        jdbi = Jdbi.create("jdbc:h2:mem:test");
-        jdbi.setSqlLogger(new Slf4JSqlLogger());
         try(Handle handle = jdbi.open()){
             handle.execute("""
                     CREATE TABLE scoreboard(
@@ -22,27 +21,36 @@ public class DataBase {
                     )
                 """);
 
-            //uploadTabelTestElement(handle);
-            //List<DataModel> check = handle.createQuery("SELECT * FROM scoreboard").mapToBean(DataModel.class).list();
-            //check.forEach(System.out::println);
-
         }
         return jdbi;
     }
 
 
     public static void uploadTabelTestElement(Handle handle){
+        Faker faker = new Faker();
+        String testuser = faker.name().lastName();
+        String testuser2 = faker.name().lastName();
+        String testuser3 = faker.name().lastName();
         PreparedBatch batch = handle.prepareBatch("INSERT INTO scoreboard(playerone,playertwo,winner) VALUES (:playerone,:playertwo,:winner)");
-        batch.bindBean( new DataModel("Elek","Géza","Elek")).add();
-        batch.bindBean( new DataModel("MZ/X","Tomi","Tomi")).add();
-        batch.bindBean( new DataModel("SxC3","sade","SxC3")).add();
+        batch.bindBean( new DataModel(testuser,faker.name().username(),testuser)).add();
+        batch.bindBean( new DataModel(faker.name().username(),testuser2,testuser2)).add();
+        batch.bindBean( new DataModel(testuser3,faker.name().username(),testuser3)).add();
         batch.execute();
     }
 
     public static List<DataModel> getScoreBoard(Handle handle){
-        List<DataModel> scores = handle.createQuery("SELECT * FROM scoreboard").mapToBean(DataModel.class).list();
+        List<DataModel> scores = handle.createQuery("SELECT playerone,playertwo,winner FROM scoreboard").mapToBean(DataModel.class).list();
 
         return scores;
+    }
+
+    public static void uploadResultToDataBase(Jdbi jdbi,String redplayer,String blueplayer,String winner){
+        try(Handle handle = jdbi.open()) {
+            PreparedBatch batch = handle.prepareBatch("INSERT INTO scoreboard(playerone,playertwo,winner) VALUES (:playerone,:playertwo,:winner)");
+            batch.bindBean(new DataModel(redplayer, blueplayer, winner)).add();
+            batch.execute();
+        }
+
     }
 
 
