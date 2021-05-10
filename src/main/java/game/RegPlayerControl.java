@@ -2,8 +2,6 @@ package game;
 
 import java.io.IOException;
 
-
-import game.model.DataBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,8 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.statement.Slf4JSqlLogger;
 
 
 public class RegPlayerControl {
@@ -32,12 +28,9 @@ public class RegPlayerControl {
     String red;
     String blue;
 
-    public static Jdbi jd;
+
 
     public void login(ActionEvent event) throws IOException {
-
-        jd = Jdbi.create("jdbc:h2:mem:test");
-        jd.setSqlLogger(new Slf4JSqlLogger());
 
         red = redPlayerName.getText();
         blue = bluePlayerName.getText();
