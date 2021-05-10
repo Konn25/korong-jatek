@@ -16,8 +16,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.jdbi.v3.core.Handle;
-import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.statement.Slf4JSqlLogger;
 import org.tinylog.Logger;
 
 
@@ -33,6 +31,8 @@ public class DrawBoard {
     @FXML
     Label moveText,endText;
 
+
+    List<DataModel> dm;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -52,7 +52,7 @@ public class DrawBoard {
     boolean gameEnd=false;
 
     private String winner2="";
-    public Jdbi scoreBoard;
+    //public Jdbi scoreBoard;
 
     @FXML
     Label redNameLabel,blueNameLabel;
@@ -71,10 +71,6 @@ public class DrawBoard {
 
     @FXML
     public void initialize(){
-
-        System.out.println(scoreBoard+"----------------------------------------------------------------");
-
-
         endGame.setVisible(false);
         endText.setVisible(false);
         grid= new Rectangle[4][5];
@@ -280,13 +276,12 @@ public class DrawBoard {
         end.setWinner(winner2);
         end.getPlayer(redNameLabel.getText(),blueNameLabel.getText());
 
-        List<DataModel> dm;
-        try (Handle handle = RegPlayerControl.jd.open()){
-            DataBase.createTabel(RegPlayerControl.jd);
-            DataBase.uploadTabelTestElement(handle);
+        try (Handle handle = Main.jd.open()){
+            DataBase.uploadResultToDataBase(Main.jd,redNameLabel.getText(),blueNameLabel.getText(),winner2);
             dm = DataBase.getScoreBoard(handle);
         }
         end.setScoreBoard(dm);
+
 
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
