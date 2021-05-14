@@ -8,10 +8,6 @@ import javafx.stage.Stage;
 
 public class GameApplication extends Application {
 
-    /*
-        * Start the game
-     */
-
     @Override
     public void start(Stage stage) throws Exception {
             Parent root = FXMLLoader.load(getClass().getResource("/regplayer.fxml"));
