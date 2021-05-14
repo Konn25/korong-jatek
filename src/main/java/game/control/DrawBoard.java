@@ -1,5 +1,7 @@
-package game;
+package game.control;
 
+import game.Main;
+import game.control.EndGameControl;
 import game.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +25,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Draw the game board and control the game.fxml
+ */
 public class DrawBoard {
 
     @FXML
@@ -45,47 +50,38 @@ public class DrawBoard {
     private Rectangle[][] grid;
 
     private final int [][] adat= new int [5][4];
-    int lastX=0;
-    int lastY=0;
+    private int lastX=0;
+    private int lastY=0;
 
-    boolean whichPlayerMove = false;
-    boolean gameEnd=false;
+    private boolean whichPlayerMove = false;
+    private boolean gameEnd=false;
 
     private String winner2="";
 
 
     @FXML
-    Label redNameLabel,blueNameLabel;
+    private Label redNameLabel,blueNameLabel;
 
     @FXML
-    Button endGame;
+    private Button endGame;
 
-    /*
-       * Set red player name
-     */
+
     public void setRedName(String redName) {
         redNameLabel.setText(redName);
     }
 
-    /*
-     * Set blue player name
-     */
     public void setBlueName(String blueName){
         blueNameLabel.setText(blueName);
     }
 
-
-    /*
-     *  Initialize board , red and blue circle
-     */
     @FXML
     public void initialize(){
         endGame.setVisible(false);
         endText.setVisible(false);
         grid= new Rectangle[4][5];
 
-        Draw.DrawTable(grid, size, squareSizeX, squareSizeY, pane);
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
+        Draw.DrawBoard(grid, size, squareSizeX, squareSizeY, pane);
+        ArrayList<Piece> pieces = new ArrayList<>();
         int plus=0;
         int counter =1;
         int plus2=0;
@@ -149,17 +145,14 @@ public class DrawBoard {
 
     }
 
-    /*
-       * Check values which player win the game
-     */
-    public void checkValues(int [][] adat){
-        int color=0; //1--kék, 2--piros
+    public void checkValues(int [][] circlePos){
+        int color=0;
         int blueColor=1;
         int redColor=2;
 
-        if(MoveCheck.checkData(adat,blueColor)==1){
+        if(MoveCheck.checkData(circlePos,blueColor)==1){
             color=1;
-        }else if(MoveCheck.checkData(adat,redColor)==2){
+        }else if(MoveCheck.checkData(circlePos,redColor)==2){
             color=2;
         }
 
@@ -188,25 +181,23 @@ public class DrawBoard {
     }
 
 
-    /*
-       * Show where player can move
-     */
-    public void pressed(Piece p,int [][] adat, Circle c, boolean whichPlayerMove) {
+
+    public void pressed(Piece p,int [][] circlePos, Circle c, boolean whichPlayerMove) {
         lastX=(int)p.getX() / squareSizeX;
         lastY=(int)p.getY() / squareSizeY;
         Logger.info(lastX+" "+lastY);
 
         if(c.getFill() == Color.RED && !whichPlayerMove) {
-            MoveCheck.checkPossibleMove(lastX, lastY, adat, grid);
-            Logger.info("A tábla jelenlegi állapota\n"+ adat[0][0]+" "+adat[0][1]+" "+adat[0][2]+" "+adat[0][3]+"\n"+adat[1][0]+" "+adat[1][1]+" "+adat[1][2]+" "+adat[1][3]+"\n"+
-                    adat[2][0]+" "+adat[2][1]+" "+adat[2][2]+" "+adat[2][3]+"\n"+adat[3][0]+" "+adat[3][1]+" "+adat[3][2]+" "+adat[3][3]+"\n"+
-                    adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
+            MoveCheck.checkPossibleMove(lastX, lastY, circlePos, grid);
+            Logger.info("A tábla jelenlegi állapota\n"+ circlePos[0][0]+" "+circlePos[0][1]+" "+circlePos[0][2]+" "+circlePos[0][3]+"\n"+circlePos[1][0]+" "+circlePos[1][1]+" "+circlePos[1][2]+" "+circlePos[1][3]+"\n"+
+                    circlePos[2][0]+" "+circlePos[2][1]+" "+circlePos[2][2]+" "+circlePos[2][3]+"\n"+circlePos[3][0]+" "+circlePos[3][1]+" "+circlePos[3][2]+" "+circlePos[3][3]+"\n"+
+                    circlePos[4][0]+" "+circlePos[4][1]+" "+circlePos[4][2]+" "+circlePos[4][3]);
         }else if(c.getFill() == Color.BLUE && whichPlayerMove){
-            MoveCheck.checkPossibleMove(lastX, lastY, adat, grid);
+            MoveCheck.checkPossibleMove(lastX, lastY, circlePos, grid);
 
-            Logger.info("A tábla jelenlegi állapota\n"+ adat[0][0]+" "+adat[0][1]+" "+adat[0][2]+" "+adat[0][3]+"\n"+adat[1][0]+" "+adat[1][1]+" "+adat[1][2]+" "+adat[1][3]+"\n"+
-                    adat[2][0]+" "+adat[2][1]+" "+adat[2][2]+" "+adat[2][3]+"\n"+adat[3][0]+" "+adat[3][1]+" "+adat[3][2]+" "+adat[3][3]+"\n"+
-                    adat[4][0]+" "+adat[4][1]+" "+adat[4][2]+" "+adat[4][3]);
+            Logger.info("A tábla jelenlegi állapota\n"+ circlePos[0][0]+" "+circlePos[0][1]+" "+circlePos[0][2]+" "+circlePos[0][3]+"\n"+circlePos[1][0]+" "+circlePos[1][1]+" "+circlePos[1][2]+" "+circlePos[1][3]+"\n"+
+                    circlePos[2][0]+" "+circlePos[2][1]+" "+circlePos[2][2]+" "+circlePos[2][3]+"\n"+circlePos[3][0]+" "+circlePos[3][1]+" "+circlePos[3][2]+" "+circlePos[3][3]+"\n"+
+                    circlePos[4][0]+" "+circlePos[4][1]+" "+circlePos[4][2]+" "+circlePos[4][3]);
         }else{
             Logger.info("Nem jó játékos lép");
         }
@@ -215,10 +206,6 @@ public class DrawBoard {
 
         Logger.info("LAST: "+lastX+"  "+lastY);
     }
-
-    /*
-        * Check which player can dragged
-     */
 
     public void dragged(MouseEvent event, Piece p, Circle c, boolean whichPlayerMove){
 
@@ -234,16 +221,9 @@ public class DrawBoard {
         }else{
             Logger.info("Nem jó játékos lép");
         }
-
-
-
     }
 
-    /*
-     * Dragged circle set the new right place
-     */
-
-    public void released( Piece p,int [][] adat,Circle c){
+    public void released(Piece p,int [][] circlePos,Circle c){
         int gridx =(int)p.getX() / squareSizeX;
         int gridy =(int)p.getY() / squareSizeY;
 
@@ -253,12 +233,12 @@ public class DrawBoard {
         try{
             if(c.getFill()==Color.RED && !whichPlayerMove&& !gameEnd){
 
-                whichPlayerMove=MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,false);
-                MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,whichPlayerMove);
+                whichPlayerMove=MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,false);
+                MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,whichPlayerMove);
             }else if(c.getFill()==Color.BLUE && whichPlayerMove && !gameEnd){
 
-                whichPlayerMove=MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,true);
-                MoveCheck.movePiece(p,adat,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,whichPlayerMove);
+                whichPlayerMove=MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,true);
+                MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,whichPlayerMove);
             }else{
                 p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
                 p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
@@ -285,13 +265,9 @@ public class DrawBoard {
             Logger.warn("Hiba:"+e);
         }
 
-        checkValues(adat);
+        checkValues(circlePos);
 
     }
-
-    /*
-        * Open the endgame.fxml and insert players and winner the database
-     */
 
     public void playerWin(ActionEvent event) throws IOException {
 
@@ -301,14 +277,12 @@ public class DrawBoard {
         EndGameControl end = loader2.getController();
 
         end.setWinner(winner2);
-
+        end.getPlayers(redNameLabel.getText(),blueNameLabel.getText());
         try (Handle handle = Main.jd.open()){
             DataBase.uploadResultToDataBase(Main.jd,redNameLabel.getText(),blueNameLabel.getText(),winner2);
             dm = DataBase.getScoreBoard(handle);
         }
         end.setScoreBoard(dm);
-
-
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setTitle("Játék vége");
