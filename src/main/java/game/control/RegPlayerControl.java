@@ -1,4 +1,4 @@
-package game;
+package game.control;
 
 import java.io.IOException;
 
@@ -28,9 +28,6 @@ public class RegPlayerControl {
     String red;
     String blue;
 
-    /*
-       * Check players give nickname or name in the textfield and open game.fxml
-     */
 
     public void login(ActionEvent event) throws IOException {
 
