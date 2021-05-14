@@ -1,9 +1,5 @@
 package game.model;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.tinylog.Logger;
@@ -13,69 +9,6 @@ import org.tinylog.Logger;
  */
 
 public class MoveCheck {
-
-
-    /**
-     *  Check circle where can put
-     * @param p a Piece type
-     * @param circlePos store the circles position
-     * @param gridx the grid X axis position
-     * @param gridy the grid Y axis position
-     * @param squareSizeX X axis square number
-     * @param squareSizeY Y axis square number
-     * @param lastX the circle last X position
-     * @param lastY the circle last Y position
-     * @param colorNumber the color number 1 is blue, number 2 is red
-     * @param movePlayer if it is false red player can move else the blue player can move
-     * @return a boolean, which player can move next
-     */
-    public static boolean movePiece(Piece p, int [][] circlePos, int gridx, int gridy, int squareSizeX, int squareSizeY, int lastX, int lastY,  int colorNumber, boolean movePlayer){
-        boolean whichPlayerMove=false;
-
-        if((p.getX()>40 && p.getY()>360)||(p.getX()>400 && p.getY()>20)||(circlePos[gridy][gridx]==0 || circlePos[gridy][gridx]==1 || circlePos[gridy][gridx]==2)&&( lastY-gridy>1 || lastY-gridy<-1) || ( lastX-gridx>1 || lastX-gridx<-1) ||(lastX-gridx>0 && lastY-gridy>0 || lastX-gridx<0 && lastY-gridy>0 || lastX-gridx<0 && lastY-gridy<0 || lastX-gridx>0 && lastY-gridy<0)){
-            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
-            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
-            p.draw();
-            Logger.info("Nem megfelelő a lépés");
-            whichPlayerMove=movePlayer;
-
-        }else if(circlePos[gridy][gridx]==2 || circlePos[gridy][gridx]==1){
-            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
-            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
-            p.draw();
-            Logger.info("Nem jó van ott egy korong");
-            whichPlayerMove=movePlayer;
-        }
-        else if(!movePlayer && colorNumber==2){
-            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
-            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
-            p.draw();
-            Logger.info("Kék játékos jön ");
-            whichPlayerMove=true;
-        }
-        else if(movePlayer && colorNumber==1){
-            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
-            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
-            p.draw();
-            Logger.info("Piros játékos jön ");
-            whichPlayerMove=false;
-        }
-        else{
-
-            circlePos[gridy][gridx]=colorNumber;
-            if(colorNumber==1){
-                whichPlayerMove=true;
-            }
-
-            circlePos[lastY][lastX]=0;
-            p.setX((float)(squareSizeX/2 +squareSizeX*gridx));
-            p.setY((float)(squareSizeY/2 +squareSizeY*gridy));
-            p.draw();
-            Logger.info("Megfelelő lépés");
-
-        }
-        return whichPlayerMove;
-    }
 
     /**
      * Check which player win
@@ -89,82 +22,82 @@ public class MoveCheck {
         String colorName;
 
         if(colorNumber == 2){
-            colorName="Piros";
+            colorName="Red";
         }
         else if(colorNumber == 1){
-            colorName="Kék";
+            colorName="Blue";
         }
         else{
-            colorName="Nincs ilyen szín";
+            colorName="There is no such color";
         }
 
         if((circlePos[0][0]==colorNumber && circlePos[1][0]==colorNumber && circlePos[2][0]==colorNumber) || (circlePos[1][0]==colorNumber && circlePos[2][0]==colorNumber && circlePos[3][0]==colorNumber) || (circlePos[2][0]==colorNumber && circlePos[3][0]==colorNumber && circlePos[4][0]==colorNumber)){
             color=colorNumber;
-            Logger.info( colorName +" győz");
+            Logger.info( colorName +" wins");
         }
         else if((circlePos[0][1]==colorNumber && circlePos[1][1]==colorNumber && circlePos[2][1]==colorNumber) || (circlePos[1][1]==colorNumber && circlePos[2][1]==colorNumber && circlePos[3][1]==colorNumber) || (circlePos[2][1]==2 && circlePos[3][1]==colorNumber && circlePos[4][1]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[0][2]==colorNumber && circlePos[1][2]==colorNumber && circlePos[2][2]==colorNumber) || (circlePos[1][2]==colorNumber && circlePos[2][2]==colorNumber && circlePos[3][2]==colorNumber) || (circlePos[2][2]==colorNumber && circlePos[3][2]==colorNumber && circlePos[4][2]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[0][3]==colorNumber && circlePos[1][3]==colorNumber && circlePos[2][3]==colorNumber) || (circlePos[1][3]==colorNumber && circlePos[2][3]==colorNumber && circlePos[3][3]==colorNumber) || (circlePos[2][3]==colorNumber && circlePos[3][3]==colorNumber && circlePos[4][3]==colorNumber)){
             color=colorNumber;
-            System.out.println(colorName +" győz");
+            System.out.println(colorName +" wins");
         }
         else if((circlePos[0][0]==colorNumber && circlePos[0][1]==colorNumber && circlePos[0][2]==colorNumber) || (circlePos[0][1]==colorNumber && circlePos[0][2]==colorNumber && circlePos[0][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[1][0]==colorNumber && circlePos[1][1]==colorNumber && circlePos[1][2]==colorNumber) || (circlePos[1][1]==colorNumber && circlePos[1][2]==colorNumber && circlePos[1][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[2][0]==colorNumber && circlePos[2][1]==colorNumber && circlePos[2][2]==colorNumber) || (circlePos[2][1]==colorNumber && circlePos[2][2]==colorNumber && circlePos[2][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[3][0]==colorNumber && circlePos[3][1]==colorNumber && circlePos[3][2]==colorNumber) || (circlePos[3][1]==colorNumber && circlePos[3][2]==colorNumber && circlePos[3][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[4][0]==colorNumber && circlePos[4][1]==colorNumber && circlePos[4][2]==colorNumber) || (circlePos[4][1]==colorNumber && circlePos[4][2]==colorNumber && circlePos[4][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[0][0]==colorNumber && circlePos[1][1]==colorNumber && circlePos[2][2]==colorNumber) || (circlePos[1][1]==colorNumber && circlePos[2][2]==colorNumber && circlePos[3][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[0][1]==colorNumber && circlePos[1][2]==colorNumber && circlePos[2][3]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[0][2]==colorNumber && circlePos[1][1]==colorNumber && circlePos[2][0]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[0][3]==colorNumber && circlePos[1][2]==colorNumber && circlePos[2][1]==colorNumber) || (circlePos[1][2]==colorNumber && circlePos[2][1]==colorNumber && circlePos[3][0]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[1][0]==colorNumber && circlePos[2][1]==colorNumber && circlePos[3][2]==colorNumber) || (circlePos[2][1]==colorNumber && circlePos[3][2]==colorNumber && circlePos[4][3]==colorNumber)){
             color=colorNumber;
-            Logger.info("Piros győz");
+            Logger.info(colorName+" wins");//Red
         }
         else if((circlePos[1][3]==colorNumber && circlePos[2][2]==colorNumber && circlePos[3][1]==colorNumber) || (circlePos[2][2]==colorNumber && circlePos[3][1]==colorNumber && circlePos[4][0]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[2][0]==colorNumber && circlePos[3][1]==colorNumber && circlePos[4][2]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
         else if((circlePos[2][3]==colorNumber && circlePos[3][2]==colorNumber && circlePos[4][1]==colorNumber)){
             color=colorNumber;
-            Logger.info(colorName +" győz");
+            Logger.info(colorName +" wins");
         }
 
         return color;
@@ -202,7 +135,7 @@ public class MoveCheck {
         circlePos[4][2]=2;
         circlePos[4][3]=1;
 
-        Logger.info("A tábla jelenlegi állapota\n"+ circlePos[0][0]+" "+circlePos[0][1]+" "+circlePos[0][2]+" "+circlePos[0][3]+"\n"+circlePos[1][0]+" "+circlePos[1][1]+" "+circlePos[1][2]+" "+circlePos[1][3]+"\n"+
+        Logger.info("The current state of the table: \n"+ circlePos[0][0]+" "+circlePos[0][1]+" "+circlePos[0][2]+" "+circlePos[0][3]+"\n"+circlePos[1][0]+" "+circlePos[1][1]+" "+circlePos[1][2]+" "+circlePos[1][3]+"\n"+
         circlePos[2][0]+" "+circlePos[2][1]+" "+circlePos[2][2]+" "+circlePos[2][3]+"\n"+circlePos[3][0]+" "+circlePos[3][1]+" "+circlePos[3][2]+" "+circlePos[3][3]+"\n"+
         circlePos[4][0]+" "+circlePos[4][1]+" "+circlePos[4][2]+" "+circlePos[4][3]);
     }
