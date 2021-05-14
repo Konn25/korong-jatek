@@ -1,7 +1,6 @@
 package game.control;
 
 import game.Main;
-import game.control.EndGameControl;
 import game.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,9 +37,6 @@ public class DrawBoard {
 
 
     List<DataModel> dm;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     private final int  size=400;
 
@@ -92,12 +88,11 @@ public class DrawBoard {
 
             double radius = squareSizeX/4.0;
 
+            c.setStroke(Color.BLACK);
             if(counter<=4){
                 if(counter%2==0){
-                    c.setStroke(Color.BLACK);
                     c.setFill(Color.RED);
                 }else{
-                    c.setStroke(Color.BLACK);
                     c.setFill(Color.BLUE);
                 }
 
@@ -117,10 +112,8 @@ public class DrawBoard {
             }else{
 
                 if(counter%2==0){
-                    c.setStroke(Color.BLACK);
                     c.setFill(Color.BLUE);
                 }else{
-                    c.setStroke(Color.BLACK);
                     c.setFill(Color.RED);
                 }
 
@@ -157,24 +150,24 @@ public class DrawBoard {
         }
 
         if(color==1){
-            Logger.info("Játék vége Kék játékos győzött");
+            Logger.info("Game Over Blue player won");
             winner2=blueNameLabel.getText();
             System.out.println(winner2);
             gameEnd=true;
             endGame.setVisible(true);
             endText.setVisible(true);
-            endText.setText("Kék játékos nyert");
+            endText.setText("Blue player won");
             pane.setVisible(false);
             moveText.setVisible(false);
         }
         else if(color == 2){
-            Logger.info("Játék vége Piros játékos győzött");
+            Logger.info("Game Over Red player won");
             winner2=redNameLabel.getText();
             System.out.println(winner2);
             gameEnd=true;
             endGame.setVisible(true);
             endText.setVisible(true);
-            endText.setText("Piros játékos nyert");
+            endText.setText("Red player won");
             pane.setVisible(false);
             moveText.setVisible(false);
         }
@@ -188,23 +181,16 @@ public class DrawBoard {
         Logger.info(lastX+" "+lastY);
 
         if(c.getFill() == Color.RED && !whichPlayerMove) {
-            MoveCheck.checkPossibleMove(lastX, lastY, circlePos, grid);
-            Logger.info("A tábla jelenlegi állapota\n"+ circlePos[0][0]+" "+circlePos[0][1]+" "+circlePos[0][2]+" "+circlePos[0][3]+"\n"+circlePos[1][0]+" "+circlePos[1][1]+" "+circlePos[1][2]+" "+circlePos[1][3]+"\n"+
-                    circlePos[2][0]+" "+circlePos[2][1]+" "+circlePos[2][2]+" "+circlePos[2][3]+"\n"+circlePos[3][0]+" "+circlePos[3][1]+" "+circlePos[3][2]+" "+circlePos[3][3]+"\n"+
-                    circlePos[4][0]+" "+circlePos[4][1]+" "+circlePos[4][2]+" "+circlePos[4][3]);
+            CheckPossibleMoves(circlePos);
         }else if(c.getFill() == Color.BLUE && whichPlayerMove){
-            MoveCheck.checkPossibleMove(lastX, lastY, circlePos, grid);
-
-            Logger.info("A tábla jelenlegi állapota\n"+ circlePos[0][0]+" "+circlePos[0][1]+" "+circlePos[0][2]+" "+circlePos[0][3]+"\n"+circlePos[1][0]+" "+circlePos[1][1]+" "+circlePos[1][2]+" "+circlePos[1][3]+"\n"+
-                    circlePos[2][0]+" "+circlePos[2][1]+" "+circlePos[2][2]+" "+circlePos[2][3]+"\n"+circlePos[3][0]+" "+circlePos[3][1]+" "+circlePos[3][2]+" "+circlePos[3][3]+"\n"+
-                    circlePos[4][0]+" "+circlePos[4][1]+" "+circlePos[4][2]+" "+circlePos[4][3]);
+            CheckPossibleMoves(circlePos);
         }else{
-            Logger.info("Nem jó játékos lép");
+            Logger.info("Not the right player moves");
         }
 
 
 
-        Logger.info("LAST: "+lastX+"  "+lastY);
+        Logger.info("Last Position: "+lastX+"  "+lastY);
     }
 
     public void dragged(MouseEvent event, Piece p, Circle c, boolean whichPlayerMove){
@@ -218,14 +204,12 @@ public class DrawBoard {
             p.setX(p.getX()+event.getX());
             p.setY(p.getY()+event.getY());
             p.draw();
-        }else{
-            Logger.info("Nem jó játékos lép");
         }
     }
 
     public void released(Piece p,int [][] circlePos,Circle c){
-        int gridx =(int)p.getX() / squareSizeX;
-        int gridy =(int)p.getY() / squareSizeY;
+        int gridX =(int)p.getX() / squareSizeX;
+        int gridY =(int)p.getY() / squareSizeY;
 
         int redNumber=2;
         int blueNumber=1;
@@ -233,23 +217,23 @@ public class DrawBoard {
         try{
             if(c.getFill()==Color.RED && !whichPlayerMove&& !gameEnd){
 
-                whichPlayerMove=MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,false);
-                MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,redNumber,whichPlayerMove);
+                whichPlayerMove=movePiece(p,circlePos,gridX,gridY,redNumber,false);
+                movePiece(p,circlePos,gridX,gridY,redNumber,whichPlayerMove);
             }else if(c.getFill()==Color.BLUE && whichPlayerMove && !gameEnd){
 
-                whichPlayerMove=MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,true);
-                MoveCheck.movePiece(p,circlePos,gridx,gridy,squareSizeX,squareSizeY,lastX,lastY,blueNumber,whichPlayerMove);
+                whichPlayerMove=movePiece(p,circlePos,gridX,gridY,blueNumber,true);
+                movePiece(p,circlePos,gridX,gridY,blueNumber,whichPlayerMove);
             }else{
                 p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
                 p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
                 p.draw();
-                Logger.info("Vissza rakom mert nem jó a lépés");
+                Logger.info("Not a correct move, circle back to the last position ");
             }
 
             if(!whichPlayerMove){
-                moveText.setText("Piros játékos jön");
+                moveText.setText("Red player turn");
             }else{
-                moveText.setText("Kék játékos jön");
+                moveText.setText("Blue player turn");
             }
 
             for (int i = 0; i < 4; i++) {
@@ -258,22 +242,33 @@ public class DrawBoard {
                         grid[i][j].setFill(Color.WHITE);
                     }
                 }
-
             }
 
         }catch(Exception e){
-            Logger.warn("Hiba:"+e);
+            Logger.error("Error:"+e);
+            if(c.getFill()==Color.RED && !whichPlayerMove&& !gameEnd){
+                whichPlayerMove=false;
+            }
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if(grid[i][j].getFill()==Color.GREEN){
+                        grid[i][j].setFill(Color.WHITE);
+                    }
+                }
+            }
+
+
+
         }
-
         checkValues(circlePos);
-
     }
 
     public void playerWin(ActionEvent event) throws IOException {
 
 
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/endgame.fxml"));
-        root = loader2.load();
+        Parent root = loader2.load();
         EndGameControl end = loader2.getController();
 
         end.setWinner(winner2);
@@ -284,12 +279,65 @@ public class DrawBoard {
         }
         end.setScoreBoard(dm);
 
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setTitle("Játék vége");
-        scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Game Over");
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
+    public void CheckPossibleMoves(int[][] circlePos){
+        MoveCheck.checkPossibleMove(lastX, lastY, circlePos, grid);
+        Logger.info("The previous state of the table: \n%d %d %d %d\n%d %d %d %d\n%d %d %d %d\n%d %d %d %d\n%d %d %d %d".formatted(circlePos[0][0], circlePos[0][1], circlePos[0][2], circlePos[0][3],
+                circlePos[1][0], circlePos[1][1], circlePos[1][2], circlePos[1][3],
+                circlePos[2][0], circlePos[2][1], circlePos[2][2], circlePos[2][3],
+                circlePos[3][0], circlePos[3][1], circlePos[3][2], circlePos[3][3],
+                circlePos[4][0], circlePos[4][1], circlePos[4][2], circlePos[4][3]));
+    }
 
+
+    public boolean movePiece(Piece p, int[][] circlePos, int gridX, int gridY, int colorNumber, boolean movePlayer){
+
+        if((p.getX()>10 && p.getY()>360)||(p.getX()>400 && p.getY()>20)||(circlePos[gridY][gridX]==0 || circlePos[gridY][gridX]==1 || circlePos[gridY][gridX]==2)&&( lastY-gridY>1 || lastY-gridY<-1) || ( lastX-gridX>1 || lastX-gridX<-1) ||(lastX-gridX>0 && lastY-gridY>0 || lastX-gridX<0 && lastY-gridY>0 || lastX-gridX<0 && lastY-gridY<0 || lastX-gridX>0 && lastY-gridY<0)){
+            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
+            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
+            p.draw();
+            Logger.info("Not the right move");
+        }
+        else if(circlePos[gridY][gridX]==2 || circlePos[gridY][gridX]==1){
+            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
+            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
+            p.draw();
+            Logger.info("There is a circle");
+            whichPlayerMove=movePlayer;
+        }
+        else if(!movePlayer && colorNumber==2){
+            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
+            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
+            p.draw();
+            Logger.info("Blue player turn");
+            whichPlayerMove=true;
+        }
+        else if(movePlayer && colorNumber==1){
+            p.setX((float)(squareSizeX/2 +squareSizeX*lastX));
+            p.setY((float)(squareSizeY/2 +squareSizeY*lastY));
+            p.draw();
+            Logger.info("Red player turn ");
+            whichPlayerMove=false;
+        }
+        else{
+            circlePos[gridY][gridX]=colorNumber;
+            if(colorNumber==1){
+                whichPlayerMove=false;
+            }
+
+            circlePos[lastY][lastX]=0;
+            p.setX((float)(squareSizeX/2 +squareSizeX*gridX));
+            p.setY((float)(squareSizeY/2 +squareSizeY*gridY));
+            p.draw();
+            Logger.info("Good move");
+
+        }
+        return whichPlayerMove;
+    }
 }
