@@ -1,4 +1,4 @@
-package game;
+package game.control;
 
 import game.model.DataModel;
 import javafx.collections.FXCollections;
@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-
 
 public class EndGameControl {
 
@@ -44,17 +43,15 @@ public class EndGameControl {
     private String bluePlayer="";
     private String redPlayer="";
 
-    /*
-       * Set winnerLabel text
-     */
 
     public void setWinner(String win){
         winnerLabel.setText("Győztes: "+win);
     }
 
-    /*
-        * Set scoreboard Table data in FXML view
-     */
+    public void getPlayers(String red, String blue){
+        redPlayer=red;
+        bluePlayer=blue;
+    }
 
     public void setScoreBoard(List<DataModel> list){
 
@@ -64,20 +61,13 @@ public class EndGameControl {
         BluePlayerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("playertwo"));
         WinnerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("winner"));
 
-
-
         for (int i = 0; i < list.size(); i++) {
             dats.addAll(FXCollections.observableArrayList(new DataModel(list.get(i).getPlayerone(),list.get(i).getPlayertwo(),list.get(i).getWinner())));
             scoreTable.setItems(dats);
         }
 
-
-
     }
 
-    /*
-       * Start a new game
-     */
 
     public void newGame(ActionEvent event) throws IOException {
 
@@ -91,9 +81,6 @@ public class EndGameControl {
         stage.show();
     }
 
-    /*
-        * Rematch with current opponent
-     */
 
     public void reMatch(ActionEvent event) throws IOException{
 
@@ -110,8 +97,5 @@ public class EndGameControl {
         stage.setTitle("Piros játékos: "+redPlayer+"  Kék játékos: "+bluePlayer);
         stage.show();
     }
-
-
-
 
 }
