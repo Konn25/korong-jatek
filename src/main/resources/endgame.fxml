@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.EndGameControl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.control.EndGameControl">
     <center>
         <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <children>
+
                 <Label fx:id="winnerLabel" layoutX="129.0" layoutY="27.0" text="Győztes:">
                     <font>
                         <Font size="20.0" />
@@ -26,7 +26,6 @@
                   <TableColumn fx:id="WinnerCol" prefWidth="186.0" text="Winner" />
               </columns>
             </TableView>
-            </children>
         </Pane>
     </center>
 </BorderPane>
