@@ -31,7 +31,7 @@ public class Draw {
                 pane.getChildren().add(r);
             }
         }
-        Logger.info("Tábla felrajzolása kész");
+        Logger.info("The board has been drawn");
     }
 
 }
