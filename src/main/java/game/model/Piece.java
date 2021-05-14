@@ -1,6 +1,5 @@
 package game.model;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
@@ -12,8 +11,6 @@ public class Piece {
     private double y;
     private double radius;
     private Circle c;
-
-
 
     public Piece(double x, double y, double radius, Circle c){
         this.x=x;
