@@ -16,9 +16,8 @@ public class DataBase {
     /**
      * Creat a table
      * @param jdbi where store the jdbi
-     * @return created a table where can store the game players and winner name
      */
-    public static Jdbi createTabel(Jdbi jdbi){
+    public static void createTabel(Jdbi jdbi){
         try(Handle handle = jdbi.open()){
             handle.execute("""
                     CREATE TABLE scoreboard(
@@ -30,7 +29,6 @@ public class DataBase {
                 """);
 
         }
-        return jdbi;
     }
 
 
@@ -57,9 +55,8 @@ public class DataBase {
      * @return data from table
      */
     public static List<DataModel> getScoreBoard(Handle handle){
-        List<DataModel> scores = handle.createQuery("SELECT playerone,playertwo,winner FROM scoreboard").mapToBean(DataModel.class).list();
 
-        return scores;
+        return handle.createQuery("SELECT playerone,playertwo,winner FROM scoreboard").mapToBean(DataModel.class).list();
     }
 
     /**
