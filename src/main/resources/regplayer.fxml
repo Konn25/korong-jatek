@@ -7,15 +7,15 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.control.RegPlayerControl">
-        <TextField fx:id="redPlayerName" layoutX="243.0" layoutY="64.0" />
-        <Button fx:id="loginButton" layoutX="267.0" layoutY="295.0" mnemonicParsing="false" onAction="#login" text="Játék" />
-        <Label layoutX="75.0" layoutY="61.0" text="Piros játékos">
+        <TextField fx:id="redPlayerName" layoutX="215.0" layoutY="62.0" prefHeight="24.0" prefWidth="221.0" />
+        <Button fx:id="loginButton" layoutX="224.0" layoutY="303.0" mnemonicParsing="false" onAction="#login" prefHeight="37.0" prefWidth="154.0" text="Play" />
+        <Label layoutX="75.0" layoutY="61.0" text="Red Player">
             <font>
                 <Font size="20.0" />
             </font>
         </Label>
-        <TextField fx:id="bluePlayerName" layoutX="243.0" layoutY="112.0" />
-        <Label layoutX="75.0" layoutY="111.0" text="Kék játékos">
+        <TextField fx:id="bluePlayerName" layoutX="215.0" layoutY="113.0" prefHeight="24.0" prefWidth="221.0" />
+        <Label layoutX="75.0" layoutY="112.0" text="Blue Player">
             <font>
                 <Font size="20.0" />
             </font>

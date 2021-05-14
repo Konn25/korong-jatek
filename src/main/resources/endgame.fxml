@@ -12,13 +12,13 @@
     <center>
         <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 
-                <Label fx:id="winnerLabel" layoutX="129.0" layoutY="27.0" text="Győztes:">
+                <Label fx:id="winnerLabel" layoutX="129.0" layoutY="27.0" text="Winner:">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Button fx:id="rematch" layoutX="397.0" layoutY="325.0" mnemonicParsing="false" onAction="#reMatch" prefHeight="49.0" prefWidth="143.0" text="Visszavágó" />
-                <Button fx:id="newgame" layoutX="54.0" layoutY="325.0" mnemonicParsing="false" onAction="#newGame" prefHeight="48.0" prefWidth="149.0" text="Új játék" />
+                <Button fx:id="rematch" layoutX="397.0" layoutY="325.0" mnemonicParsing="false" onAction="#reMatch" prefHeight="49.0" prefWidth="143.0" text="Rematch" />
+                <Button fx:id="newgame" layoutX="54.0" layoutY="325.0" mnemonicParsing="false" onAction="#newGame" prefHeight="48.0" prefWidth="149.0" text="New Game" />
             <TableView fx:id="scoreTable" layoutX="29.0" layoutY="75.0" prefHeight="235.0" prefWidth="551.0">
               <columns>
                 <TableColumn fx:id="RedPlayerCol" prefWidth="178.0" text="Red Player" />
