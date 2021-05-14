@@ -12,7 +12,7 @@ public class GameApplication extends Application {
     public void start(Stage stage) throws Exception {
             Parent root = FXMLLoader.load(getClass().getResource("/regplayer.fxml"));
             stage.setScene(new Scene(root));
-            stage.setTitle("Játék");
+            stage.setTitle("Circle Game");
             stage.show();
 
     }
