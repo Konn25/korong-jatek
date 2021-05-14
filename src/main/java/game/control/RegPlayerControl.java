@@ -35,19 +35,19 @@ public class RegPlayerControl {
         blue = bluePlayerName.getText();
 
         if(bluePlayerName.getText().length()==0 && redPlayerName.getText().length()==0){
-            errorText.setText("A nevek megadása kötelező");
+            errorText.setText("Names are required!!");
         }
 
         if(bluePlayerName.getText().length()>0 && redPlayerName.getText().length()==0){
-            errorText.setText("Piros játékos neve nincs megadva");
+            errorText.setText("The name of the Red Player is not specified!!");
         }else if(bluePlayerName.getText().length()==0 && redPlayerName.getText().length()>0){
-            errorText.setText("Kék játékos neve nincs megadva");
+            errorText.setText("The name of the Blue Player is not specified!!");
         }
 
         if(bluePlayerName.getText().length()>0 && redPlayerName.getText().length()>0){
 
             if(bluePlayerName.getText().equals(redPlayerName.getText()) || redPlayerName.getText().equals(bluePlayerName.getText())){
-                errorText.setText("A két játékos neve nem lehet egyforma");
+                errorText.setText("The names of the two players can't be the same");
             }else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
                 root = loader.load();
@@ -59,7 +59,7 @@ public class RegPlayerControl {
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Piros játékos: " + red + "  Kék játékos: " + blue);
+                stage.setTitle("Red Player: " + red + "  Blue Player: " + blue);
                 stage.show();
             }
         }
