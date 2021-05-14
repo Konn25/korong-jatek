@@ -43,9 +43,10 @@ public class EndGameControl {
     private String bluePlayer="";
     private String redPlayer="";
 
+    private FXMLLoader loader;
 
     public void setWinner(String win){
-        winnerLabel.setText("Győztes: "+win);
+        winnerLabel.setText("Winner: "+win);
     }
 
     public void getPlayers(String red, String blue){
@@ -61,8 +62,8 @@ public class EndGameControl {
         BluePlayerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("playertwo"));
         WinnerCol.setCellValueFactory(new PropertyValueFactory<DataModel, String>("winner"));
 
-        for (int i = 0; i < list.size(); i++) {
-            dats.addAll(FXCollections.observableArrayList(new DataModel(list.get(i).getPlayerone(),list.get(i).getPlayertwo(),list.get(i).getWinner())));
+        for (DataModel dataModel : list) {
+            dats.addAll(FXCollections.observableArrayList(new DataModel(dataModel.getPlayerone(), dataModel.getPlayertwo(), dataModel.getWinner())));
             scoreTable.setItems(dats);
         }
 
@@ -71,7 +72,7 @@ public class EndGameControl {
 
     public void newGame(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/regplayer.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/regplayer.fxml"));
         root = loader.load();
 
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -84,7 +85,7 @@ public class EndGameControl {
 
     public void reMatch(ActionEvent event) throws IOException{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
+        loader = new FXMLLoader(getClass().getResource("/game.fxml"));
         root = loader.load();
         DrawBoard dr = loader.getController();
         dr.setBlueName(bluePlayer);
@@ -94,7 +95,7 @@ public class EndGameControl {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Piros játékos: "+redPlayer+"  Kék játékos: "+bluePlayer);
+        stage.setTitle("Red player: "+redPlayer+"  Blue player: "+bluePlayer);
         stage.show();
     }
 
