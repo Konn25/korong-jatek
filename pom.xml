@@ -14,8 +14,12 @@
             <email>koncz.bence9@gmail.com</email>
         </developer>
     </developers>
+    <scm>
+        <developerConnection>scm:git:https://github.com/Konn25/korong-jatek.git</developerConnection>
+    </scm>
 
     <properties>
+        <exec.mainClass>game.javafx.Main</exec.mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
@@ -25,6 +29,7 @@
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
         <exec.cleanupDaemonThreads>false</exec.cleanupDaemonThreads>
         <jackson-databind.version>2.12.1</jackson-databind.version>
+        <surefire.version>3.0.0-M5</surefire.version>
     </properties>
 
 
@@ -78,6 +83,26 @@
                 </dependencies>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
         </plugins>
     </build>
     <reporting>
@@ -88,12 +113,6 @@
                 <version>3.0.0</version>
              </plugin>
 
-             <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-javadoc-plugin</artifactId>
-                 <version>3.2.0</version>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -101,6 +120,23 @@
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
 
         </plugins>
