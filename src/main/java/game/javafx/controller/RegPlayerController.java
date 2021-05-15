@@ -1,4 +1,4 @@
-package game.control;
+package game.javafx.controller;
 
 import java.io.IOException;
 
@@ -13,10 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-public class RegPlayerControl {
+public class RegPlayerController {
 
     @FXML
-    TextField redPlayerName,bluePlayerName;
+    TextField redPlayerName, bluePlayerName;
 
     @FXML
     Label errorText;
@@ -34,24 +34,24 @@ public class RegPlayerControl {
         red = redPlayerName.getText();
         blue = bluePlayerName.getText();
 
-        if(bluePlayerName.getText().length()==0 && redPlayerName.getText().length()==0){
+        if (bluePlayerName.getText().length() == 0 && redPlayerName.getText().length() == 0) {
             errorText.setText("Names are required!!");
         }
 
-        if(bluePlayerName.getText().length()>0 && redPlayerName.getText().length()==0){
+        if (bluePlayerName.getText().length() > 0 && redPlayerName.getText().length() == 0) {
             errorText.setText("The name of the Red Player is not specified!!");
-        }else if(bluePlayerName.getText().length()==0 && redPlayerName.getText().length()>0){
+        } else if (bluePlayerName.getText().length() == 0 && redPlayerName.getText().length() > 0) {
             errorText.setText("The name of the Blue Player is not specified!!");
         }
 
-        if(bluePlayerName.getText().length()>0 && redPlayerName.getText().length()>0){
+        if (bluePlayerName.getText().length() > 0 && redPlayerName.getText().length() > 0) {
 
-            if(bluePlayerName.getText().equals(redPlayerName.getText()) || redPlayerName.getText().equals(bluePlayerName.getText())){
+            if (bluePlayerName.getText().equals(redPlayerName.getText()) || redPlayerName.getText().equals(bluePlayerName.getText())) {
                 errorText.setText("The names of the two players can't be the same");
-            }else {
+            } else {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
                 root = loader.load();
-                DrawBoard dr = loader.getController();
+                DrawBoardController dr = loader.getController();
                 dr.setBlueName(blue);
                 dr.setRedName(red);
 
