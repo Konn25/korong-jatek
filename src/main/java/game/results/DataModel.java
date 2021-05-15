@@ -1,9 +1,8 @@
-package game.model;
+package game.results;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 
 @NoArgsConstructor
