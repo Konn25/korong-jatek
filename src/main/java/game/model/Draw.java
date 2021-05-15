@@ -14,14 +14,15 @@ public class Draw {
 
     /**
      * Draw the board
-     * @param grid store the grid position
-     * @param size board size
+     *
+     * @param grid        store the grid position
+     * @param size        board size
      * @param squareSizeX X axis square number
      * @param squareSizeY Y axis square number
-     * @param pane a pane where the board draw
+     * {@param pane}        a pane where the board draw
      */
 
-    public static void DrawBoard(Rectangle[][] grid, int size, int squareSizeX, int squareSizeY, Pane pane) {
+    public static Pane DrawBoard(Rectangle[][] grid, int size, int squareSizeX, int squareSizeY, Pane pane) {
         for (int i = 0; i < size; i += squareSizeX) {
             for (int j = 0; j < size; j += squareSizeY) {
                 Rectangle r = new Rectangle(i, j, squareSizeX, squareSizeY);
@@ -32,6 +33,7 @@ public class Draw {
             }
         }
         Logger.info("The board has been drawn");
+        return pane;
     }
 
 }
