@@ -1,4 +1,4 @@
-package game;
+package game.javafx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +10,10 @@ public class GameApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-            Parent root = FXMLLoader.load(getClass().getResource("/regplayer.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle("Circle Game");
-            stage.show();
+        Parent root = FXMLLoader.load(getClass().getResource("/regplayer.fxml"));
+        stage.setScene(new Scene(root));
+        stage.setTitle("Circle Game");
+        stage.show();
 
     }
 }
