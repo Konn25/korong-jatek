@@ -7,6 +7,8 @@
     <groupId>hu.unideb.inf</groupId>
     <artifactId>korong-jatek</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
+    <description>A circlet game implemented in JavaFX based on the MVC</description>
     <developers>
         <developer>
             <id>Konn25</id>
@@ -23,6 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
+        <exec.cleanupDaemnoThreads>false</exec.cleanupDaemnoThreads>
         <javafx.version>16</javafx.version>
         <tinylog.version>2.3.0</tinylog.version>
         <jdbi.version>3.19.0</jdbi.version>
@@ -101,10 +104,23 @@
                     </execution>
                 </executions>
             </plugin>
-
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <filters>
+            <filter>db.properties</filter>
+        </filters>
     </build>
+
     <reporting>
         <plugins>
             <plugin>
@@ -134,6 +150,19 @@
                     <reportSet>
                         <reports>
                             <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
                         </reports>
                     </reportSet>
                 </reportSets>
