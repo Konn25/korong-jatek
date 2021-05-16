@@ -27,8 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Draw the game board and control the game.fxml
+ * Draw the game board and control the game.fxml.
  */
+@SuppressWarnings("MissingJavadocType")
 public class DrawBoardController {
 
     @FXML
@@ -104,7 +105,7 @@ public class DrawBoardController {
 
                 c.setOnMousePressed(event -> pressed(p, circlePos, c, whichPlayerMove));
                 c.setOnMouseDragged(event -> dragged(event, p, c, whichPlayerMove));
-                c.setOnMouseReleased(event -> released(p, circlePos, c));
+                c.setOnMouseReleased(event -> released(event, p, circlePos, c));
 
                 System.out.println(pieces.get(i).getX() + "  " + pieces.get(i).getY());
 
@@ -124,7 +125,7 @@ public class DrawBoardController {
 
                 c.setOnMousePressed(event -> pressed(p, circlePos, c, whichPlayerMove));
                 c.setOnMouseDragged(event -> dragged(event, p, c, whichPlayerMove));
-                c.setOnMouseReleased(event -> released(p, circlePos, c));
+                c.setOnMouseReleased(event -> released(event, p, circlePos, c));
 
                 Logger.info(pieces.get(i).getX() + "  " + pieces.get(i).getY());
 
@@ -205,7 +206,7 @@ public class DrawBoardController {
         }
     }
 
-    public void released(Piece p, int[][] circlePos, Circle c) {
+    public void released(MouseEvent event, Piece p, int[][] circlePos, Circle c) {
         int gridX = (int) p.getX() / squareSizeX;
         int gridY = (int) p.getY() / squareSizeY;
 
@@ -221,11 +222,10 @@ public class DrawBoardController {
 
                 whichPlayerMove = movePiece(p, circlePos, gridX, gridY, blueNumber, true);
                 movePiece(p, circlePos, gridX, gridY, blueNumber, whichPlayerMove);
-            } else {
-                p.setX((float) (squareSizeX / 2 + squareSizeX * lastX));
-                p.setY((float) (squareSizeY / 2 + squareSizeY * lastY));
+            } else if (lastX == gridX && lastY == gridY) {
+                p.setX((squareSizeX / 2 + squareSizeX * lastX));
+                p.setY((squareSizeY / 2 + squareSizeY * lastY));
                 p.draw();
-                whichPlayerMove = whichPlayerMove;
 
                 Logger.info("Not a correct move, circle back to the last position ");
             }
@@ -299,38 +299,44 @@ public class DrawBoardController {
     public boolean movePiece(Piece p, int[][] circlePos, int gridX, int gridY, int colorNumber, boolean movePlayer) {
 
         if ((p.getX() > 10 && p.getY() > 360) || (p.getX() > 400 && p.getY() > 20) || (circlePos[gridY][gridX] == 0 || circlePos[gridY][gridX] == 1 || circlePos[gridY][gridX] == 2) && (lastY - gridY > 1 || lastY - gridY < -1) || (lastX - gridX > 1 || lastX - gridX < -1) || (lastX - gridX > 0 && lastY - gridY > 0 || lastX - gridX < 0 && lastY - gridY > 0 || lastX - gridX < 0 && lastY - gridY < 0 || lastX - gridX > 0 && lastY - gridY < 0)) {
-            p.setX((float) (squareSizeX / 2 + squareSizeX * lastX));
-            p.setY((float) (squareSizeY / 2 + squareSizeY * lastY));
+            p.setX((squareSizeX / 2 + squareSizeX * lastX));
+            p.setY((squareSizeY / 2 + squareSizeY * lastY));
             p.draw();
             Logger.info("Not the right move");
+            whichPlayerMove = !movePlayer;
         } else if (circlePos[gridY][gridX] == 2 || circlePos[gridY][gridX] == 1) {
-            p.setX((float) (squareSizeX / 2 + squareSizeX * lastX));
-            p.setY((float) (squareSizeY / 2 + squareSizeY * lastY));
+            p.setX((squareSizeX / 2 + squareSizeX * lastX));
+            p.setY((squareSizeY / 2 + squareSizeY * lastY));
             p.draw();
             Logger.info("There is a circle");
             whichPlayerMove = movePlayer;
         } else if (!movePlayer && colorNumber == 2) {
-            p.setX((float) (squareSizeX / 2 + squareSizeX * lastX));
-            p.setY((float) (squareSizeY / 2 + squareSizeY * lastY));
+            p.setX((squareSizeX / 2 + squareSizeX * lastX));
+            p.setY((squareSizeY / 2 + squareSizeY * lastY));
             p.draw();
             Logger.info("Blue player turn");
             whichPlayerMove = true;
         } else if (movePlayer && colorNumber == 1) {
-            p.setX((float) (squareSizeX / 2 + squareSizeX * lastX));
-            p.setY((float) (squareSizeY / 2 + squareSizeY * lastY));
+            p.setX((squareSizeX / 2 + squareSizeX * lastX));
+            p.setY((squareSizeY / 2 + squareSizeY * lastY));
             p.draw();
             Logger.info("Red player turn ");
             whichPlayerMove = false;
         } else {
-            circlePos[gridY][gridX] = colorNumber;
+            p.setX((squareSizeX / 2 + squareSizeX * gridX));
+            p.setY((squareSizeY / 2 + squareSizeY * gridY));
+            p.draw();
+
             if (colorNumber == 1) {
                 whichPlayerMove = false;
+            } else {
+                whichPlayerMove = true;
             }
 
+
             circlePos[lastY][lastX] = 0;
-            p.setX((float) (squareSizeX / 2 + squareSizeX * gridX));
-            p.setY((float) (squareSizeY / 2 + squareSizeY * gridY));
-            p.draw();
+            circlePos[gridY][gridX] = colorNumber;
+
             Logger.info("Good move");
 
         }

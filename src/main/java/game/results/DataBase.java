@@ -8,13 +8,13 @@ import org.jdbi.v3.core.statement.PreparedBatch;
 import java.util.List;
 
 /**
- * Create a table in the database, upload and get results
+ * Create a table in the database, upload and get results.
  */
 
 public class DataBase {
 
     /**
-     * Creat a table
+     * Creat a table.
      *
      * @param jdbi where store the jdbi
      */
@@ -34,7 +34,7 @@ public class DataBase {
 
 
     /**
-     * Upload the table with random elements for testing
+     * Upload the table with random elements for testing.
      *
      * @param handle
      */
@@ -51,7 +51,7 @@ public class DataBase {
     }
 
     /**
-     * Get data from table
+     * Get data from table.
      *
      * @param handle
      * @return data from table

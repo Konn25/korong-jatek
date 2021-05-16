@@ -20,7 +20,7 @@ public class Piece {
     }
 
     /**
-     * Set piece Y axis
+     * Set piece Y axis.
      *
      * @param y the piece y axis position
      */
@@ -29,7 +29,7 @@ public class Piece {
     }
 
     /**
-     * Set piece X
+     * Set piece X.
      *
      * @param x he piece x axis position
      */
@@ -38,7 +38,7 @@ public class Piece {
     }
 
     /**
-     * Get piece X position
+     * Get piece X position.
      *
      * @return piece X position
      */
@@ -47,7 +47,7 @@ public class Piece {
     }
 
     /**
-     * Get piece Y position
+     * Get piece Y position.
      *
      * @return piece Y position
      */
@@ -56,7 +56,7 @@ public class Piece {
     }
 
     /**
-     * Draw piece
+     * Draw piece.
      */
     public void draw() {
         c.setRadius(radius);

@@ -7,19 +7,19 @@ import org.tinylog.Logger;
 
 
 /**
- * Draw the board
+ * Draw the board.
  */
 
 public class Draw {
 
     /**
-     * Draw the board
+     * Draw the board.
      *
      * @param grid        store the grid position
      * @param size        board size
      * @param squareSizeX X axis square number
      * @param squareSizeY Y axis square number
-     * {@param pane}        a pane where the board draw
+     * @param pane        a pane where the board draw
      */
 
     public static Pane DrawBoard(Rectangle[][] grid, int size, int squareSizeX, int squareSizeY, Pane pane) {

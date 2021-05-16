@@ -5,13 +5,13 @@ import javafx.scene.shape.Rectangle;
 import org.tinylog.Logger;
 
 /**
- * Check the player moves and which player win the game
+ * Check the player moves and which player win the game.
  */
 
 public class MoveCheck {
 
     /**
-     * Check which player win
+     * Check which player win.
      *
      * @param circlePos   store the circles position
      * @param colorNumber the color number 1 is blue, number 2 is red
@@ -48,8 +48,8 @@ public class MoveCheck {
             }
         }
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
                 if (circlePos[i][j] == colorNumber && circlePos[i + 1][j + 1] == colorNumber && circlePos[i + 2][j + 2] == colorNumber) {
                     color = colorNumber;
                     Logger.info(colorName + " wins");
@@ -70,7 +70,7 @@ public class MoveCheck {
 
 
     /**
-     * * Upload the matrix with starting position
+     * * Upload the matrix with starting position.
      *
      * @param circlePos store the circles position
      */
@@ -110,7 +110,7 @@ public class MoveCheck {
     }
 
     /**
-     * Check possible moves and fill it with green color
+     * Check possible moves and fill it with green color.
      *
      * @param lastX     the circle last X position
      * @param lastY     the circle last Y position

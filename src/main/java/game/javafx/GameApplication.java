@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+@SuppressWarnings("MissingJavadocType")
 public class GameApplication extends Application {
 
     @Override

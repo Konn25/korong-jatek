@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+@SuppressWarnings("checkstyle:MissingJavadocType")
 public class EndGameController {
 
     @FXML

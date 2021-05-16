@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
+@SuppressWarnings("MissingJavadocType")
 public class RegPlayerController {
 
     @FXML
