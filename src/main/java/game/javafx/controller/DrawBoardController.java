@@ -107,7 +107,7 @@ public class DrawBoardController {
                 c.setOnMouseDragged(event -> dragged(event, p, c, whichPlayerMove));
                 c.setOnMouseReleased(event -> released(event, p, circlePos, c));
 
-                System.out.println(pieces.get(i).getX() + "  " + pieces.get(i).getY());
+
 
                 pane.getChildren().add(c);
                 p.draw();
@@ -155,7 +155,7 @@ public class DrawBoardController {
         if (color == 1) {
             Logger.info("Game Over Blue player won");
             winner2 = blueNameLabel.getText();
-            System.out.println(winner2);
+            Logger.info(winner2);
             gameEnd = true;
             endGame.setVisible(true);
             endText.setVisible(true);
@@ -165,7 +165,7 @@ public class DrawBoardController {
         } else if (color == 2) {
             Logger.info("Game Over Red player won");
             winner2 = redNameLabel.getText();
-            System.out.println(winner2);
+            Logger.info(winner2);
             gameEnd = true;
             endGame.setVisible(true);
             endText.setVisible(true);
