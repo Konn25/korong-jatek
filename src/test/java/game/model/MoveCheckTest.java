@@ -32,9 +32,9 @@ class MoveCheckTest {
         circlePos[2][1] = 0;
         circlePos[2][2] = 0;
 
-        circlePos[2][3] = colorNumber;
-        circlePos[3][2] = colorNumber;
-        circlePos[4][1] = colorNumber;
+        circlePos[1][1] = colorNumber;
+        circlePos[2][2] = colorNumber;
+        circlePos[3][3] = colorNumber;
 
         assertEquals(2, MoveCheck.checkData(circlePos, colorNumber));
 
@@ -43,8 +43,8 @@ class MoveCheckTest {
         circlePos[4][1] = 0;
 
         circlePos[2][0] = colorNumber;
-        circlePos[3][1] = colorNumber;
-        circlePos[4][2] = colorNumber;
+        circlePos[1][1] = colorNumber;
+        circlePos[0][2] = colorNumber;
 
         assertEquals(2, MoveCheck.checkData(circlePos, colorNumber));
 
@@ -55,8 +55,8 @@ class MoveCheckTest {
         colorNumber = 1;
 
         circlePos[2][0] = colorNumber;
-        circlePos[3][1] = colorNumber;
-        circlePos[4][2] = colorNumber;
+        circlePos[1][1] = colorNumber;
+        circlePos[0][2] = colorNumber;
 
         assertEquals(1, MoveCheck.checkData(circlePos, colorNumber));
 
